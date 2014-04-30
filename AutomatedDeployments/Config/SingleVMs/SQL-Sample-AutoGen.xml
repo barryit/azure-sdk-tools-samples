@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Azure SubscriptionName="Windows Azure MSDN - Visual Studio Professional" ServiceName="sp-8ssmxn" StorageAccount="spstorageuqxwds" VNetName="SPAutoVNet" AffinityGroup="SPAutoVNet-AG">
+  <ServiceAccounts>
+    <ServiceAccount UserName="spadmin" Password="xgkm2ci95u0!" Type="WindowsLocal" Create="No" />
+    <!--Account used to create VMs-->
+    <ServiceAccount UserName="corp\spadmin" Password="xgkm2ci95u0!" Type="WindowsDomain" Create="No" />
+    <!--Account used to connect to AD-->
+    <ServiceAccount UserName="spadmin" Password="xgkm2ci95u0!" Type="SQL" />
+  </ServiceAccounts>
+  <Connections>
+    <ActiveDirectory Domain="corp" DnsDomain="corp.contoso.com" DomainControllerVM="DC1" ServiceAccountName="corp\spadmin" ServiceName="sp-8ssmxn" />
+  </Connections>
+  <AzureVMGroups>
+    <VMRole Name="SQLServers" StartingImageName="fb83b3509582419d99629ce476bcb5c8__SQL-Server-2012SP1-CU5-11.0.3373.0-Enterprise-ENU-Win2K8R2-CY13SU12" VMSize="A6" DataDiskSizesInGB="Data:20;Log:10" DefaultSQLDataFolder="F:\Data" DefaultSQLLogFolder="G:\Logs" SubnetNames="AppSubnet" ServiceAccountName="spadmin">
+      <AzureVM Name="SQL1" />
+    </VMRole>
+  </AzureVMGroups>
+  <SQLCluster Name="SQLStandalone" InstallerDomainUsername="corp\spadmin" InstallerDatabaseUserName="spadmin" />
+</Azure>

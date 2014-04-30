@@ -70,6 +70,7 @@ CreateDomainJoinedAzureVmIfNotExists $serviceName $vmName $vmSize $imageName $av
 Write-Host "Formatting data disks"
 FormatDisk $serviceName $vmName $installerDomainUsername $installerDomainPassword
 
+if(false){
 Write-Host "Enabling CredSSP on $vmName"
 EnableCredSSPServerIfNotEnabled $serviceName $vmName $installerDomainCredential
 
@@ -348,3 +349,4 @@ Invoke-Command -ComputerName $uris[0].DnsSafeHost -Credential $installerDomainCr
 	        Write-Host "Service Application Started."
 	    }
     }
+}

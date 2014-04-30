@@ -29,7 +29,8 @@ Function AutoConfigure
           [parameter(Mandatory=$false)][string]$Domain="corp",
           [parameter(Mandatory=$false)][string]$DnsDomain="corp.contoso.com",
           [parameter(Mandatory=$false)][string]$configOnly=$false,
-          [parameter(Mandatory=$false)][string]$doNotShowCreds=$false
+          [parameter(Mandatory=$false)][string]$doNotShowCreds=$false,
+		  [parameter(Mandatory=$false)][string]$Todd=$false
           )
 
     if($subscriptionName -ne "")

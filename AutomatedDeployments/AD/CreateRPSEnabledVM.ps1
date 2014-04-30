@@ -54,6 +54,7 @@ function CreateVM
 		$vmConfig | Add-AzureDataDisk -CreateNew -DiskSizeInGB $dataDiskSize -DiskLabel $dataDiskLabel -LUN $i
 	}
 	
+	Write-Host "Create VM"
 	if($dcInstallMode -eq 'NewForest')
 	{	
 		$vmConfig | Add-AzureProvisioningConfig -Windows -Password $password -AdminUserName $adminUserName 

@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Azure SubscriptionName="Windows Azure MSDN - Visual Studio Professional" ServiceName="sp-8ssmxn" StorageAccount="spstorage5eu6fy" VNetName="SPAutoVNet" AffinityGroup="SPAutoVNet-AG">
+  <ServiceAccounts>
+    <ServiceAccount Username="corp\spadmin" Password="Amyisgr8" Type="WindowsDomain" Create="No" />
+    <!--Account used to connect to AD-->
+    <ServiceAccount Username="spadmin" Password="Amyisgr8" Type="WindowsLocal" Create="No" />
+    <!--Account used to create VM-->
+    <ServiceAccount Username="spadmin" Password="Amyisgr8" Type="SQL" Create="No" />
+    <!--Database ccount used to connect to SQL Server-->
+    <ServiceAccount Username="corp\spfarm" Password="Amyisgr8" Type="WindowsDomain" Create="Yes" Usage="SPAppPool" />
+    <!--Account used to run SP App Pools-->
+    <ServiceAccount Username="corp\spadmin" Password="Amyisgr8" Type="None" />
+    <!--Pseudo account used to store farm paraphrase-->
+    <ServiceAccount Username="corp\spadmin" Password="Amyisgr8" Type="WindowsDomain" Create="Yes" Usage="sp_serviceapps" />
+    <!--Account used to run SP App Pools-->
+    <ServiceAccount Username="corp\spadmin" Password="Amyisgr8" Type="WindowsDomain" Create="Yes" Usage="sp_install" />
+    <!--Account used to run SP App Pools-->
+    <ServiceAccount Username="corp\spadmin" Password="Amyisgr8" Type="WindowsDomain" Create="Yes" Usage="sp_webapps" />
+    <!--Account used to run SP App Pools-->
+    <ServiceAccount Username="corp\spadmin" Password="Amyisgr8" Type="WindowsDomain" Create="Yes" Usage="sp_superuser" />
+    <!--Account used to run SP App Pools-->
+    <ServiceAccount Username="corp\spadmin" Password="Amyisgr8" Type="WindowsDomain" Create="Yes" Usage="sp_superreader" />
+    <!--Account used to run SP App Pools-->
+    <ServiceAccount Username="corp\spadmin" Password="Amyisgr8" Type="WindowsDomain" Create="Yes" Usage="sp_farm" />
+    <!--Account used to run SP App Pools-->
+    <!--
+	sp_install
+	sp_farm
+	sp_webapps
+	sp_serviceapps
+	sp_content 
+	sp_superuser
+	sp_superreader
+	-->
+    <!--
+	sp_install
+	sp_farm
+	sp_webapps
+	sp_serviceapps
+	sp_content 
+	sp_superuser
+	sp_superreader
+	-->
+  </ServiceAccounts>
+  <Connections>
+    <ActiveDirectory Domain="corp" DnsDomain="corp.contoso.com" DomainControllerVM="DC1" ServiceAccountName="corp\spadmin" ServiceName="sp-8ssmxn" />
+    <SQLServer Instance="SQL1" FailOverInstance="SQL2" AvailabilityGroup="AG1" Username="spadmin" ServiceName="sp-8ssmxn" />
+  </Connections>
+  <AzureVMGroups>
+    <VMRole Name="SharePointAppServers" StartingImageName="c6e0f177abd8496e934234bd27f46c5d__SharePoint-2013-Trial-1-7-2014" VMSize="Large" DataDiskSizesInGB="Log:10" AvailabilitySet="SPApp" SubnetNames="AppSubnet" AdminUsername="spadmin">
+      <AzureVM Name="SPApp1">
+        <Endpoint Name="adminSite" Protocol="tcp" LocalPort="20000" PublicPort="20000" LBSetName="" ProbePort="" ProbeProtocol="" ProbePath="" />
+      </AzureVM>
+      <AzureVM Name="SPApp2" />
+    </VMRole>
+    <VMRole Name="SharePointWebServers" StartingImageName="c6e0f177abd8496e934234bd27f46c5d__SharePoint-2013-Trial-1-7-2014" VMSize="Large" DataDiskSizesInGB="Log:10" AvailabilitySet="SPWeb" SubnetNames="AppSubnet" AdminUsername="spadmin">
+      <AzureVM Name="SPWeb1">
+        <Endpoint Name="web" Protocol="tcp" LocalPort="80" PublicPort="80" LBSetName="lbweb" ProbePort="8080" ProbeProtocol="http" ProbePath="/" />
+      </AzureVM>
+      <AzureVM Name="SPWeb2">
+        <Endpoint Name="web" Protocol="tcp" LocalPort="80" PublicPort="80" LBSetName="lbweb" ProbePort="8080" ProbeProtocol="http" ProbePath="/" />
+      </AzureVM>
+    </VMRole>
+  </AzureVMGroups>
+  <SharePointFarm Name="SP1" FarmAdminUsername="corp\spadmin" InstallerDomainUsername="corp\spadmin" InstallerDatabaseUsername="spadmin" ApplicationPoolAccount="corp\spfarm" ApplicationPoolName="DefaultWebAppPool" ConfigDBName="SharePoint_Config" AdminContentDBName="CA_Content" FarmParaphraseServiceAccountName="FarmParaphrase">
+    <WebApplications>
+      <WebApplication Name="PublishingSite" Url="http://sp-8ssmxn.cloudapp.net" TopLevelSiteTemplate="BLANKINTERNET#0" TopLevelSiteName="Blank Publishing Site" TopLevelSiteOwner="corp\spadmin" Port="80" />
+    </WebApplications>
+    <ServiceApplications>
+      <SADeploymentGroup Name="AppServices" StartOnVMRoles="SharePointAppServers">
+        <ServiceApplication DisplayName="Central Administration" />
+        <ServiceApplication DisplayName="Claims to Windows Token Service" />
+        <ServiceApplication DisplayName="Document Conversion Launcher Service">
+          <ServiceAppConfiguration>
+          </ServiceAppConfiguration>
+        </ServiceApplication>
+        <ServiceApplication DisplayName="Document Conversion Load Balancer Service">
+          <ServiceAppConfiguration>
+          </ServiceAppConfiguration>
+        </ServiceApplication>
+        <ServiceApplication DisplayName="Machine Translation Service" />
+        <ServiceApplication DisplayName="Microsoft SharePoint Foundation Incoming E-Mail" />
+        <ServiceApplication DisplayName="Microsoft SharePoint Foundation Workflow Timer Service" />
+        <ServiceApplication DisplayName="PowerPoint Conversion Service" />
+        <ServiceApplication DisplayName="Search Host Controller Service" />
+        <ServiceApplication DisplayName="Search Query and Site Settings Service" />
+        <ServiceApplication DisplayName="SharePoint Server Search">
+          <ServiceAppConfiguration>
+          </ServiceAppConfiguration>
+        </ServiceApplication>
+        <ServiceApplication DisplayName="User Profile Synchronization Service" />
+        <ServiceApplication DisplayName="Word Automation Services" />
+        <ServiceApplication DisplayName="Work Management Service" />
+      </SADeploymentGroup>
+      <SADeploymentGroup Name="FEServices" StartOnVMRoles="SharePointWebServers">
+        <ServiceApplication DisplayName="Access Database Service 2010" />
+        <ServiceApplication DisplayName="Access Service" />
+        <ServiceApplication DisplayName="App Management Service" />
+        <ServiceApplication DisplayName="Business Data Connectivity Service" />
+        <ServiceApplication DisplayName="Excel Calculation Services" />
+        <ServiceApplication DisplayName="Managed Metadata Web Service" />
+        <ServiceApplication DisplayName="Microsoft SharePoint Foundation Sandboxed Code Service" />
+        <ServiceApplication DisplayName="Microsoft SharePoint Foundation Subscription Settings Service" />
+        <ServiceApplication DisplayName="PerformancePoint Service" />
+        <ServiceApplication DisplayName="Secure Store Service" />
+        <ServiceApplication DisplayName="User Profile Service" />
+        <ServiceApplication DisplayName="Visio Graphics Service" />
+        <ServiceApplication DisplayName="Distributed Cache" />
+      </SADeploymentGroup>
+      <SADeploymentGroup Name="CommonServices" StartOnRoles="SharePointWebServers,SharePointAppServers">
+        <ServiceApplication DisplayName="Microsoft SharePoint Foundation Web Application" />
+      </SADeploymentGroup>
+      <SADeploymentGroup Name="UnusedServices" StartOnRoles="">
+        <ServiceApplication DisplayName="Lotus Notes Connector" />
+      </SADeploymentGroup>
+    </ServiceApplications>
+  </SharePointFarm>
+</Azure>

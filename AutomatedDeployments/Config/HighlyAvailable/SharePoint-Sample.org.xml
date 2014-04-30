@@ -6,21 +6,7 @@
     <ServiceAccount Username="{ADMIN NAME}" Password="{PASSWORD}" Type="SQL" Create="No" /> <!--Database ccount used to connect to SQL Server-->
     <ServiceAccount Username="{DOMAIN\SP FARM ACCOUNT}" Password="{PASSWORD}" Type="WindowsDomain" Create="Yes" Usage="SPAppPool" /> <!--Account used to run SP App Pools-->
     <ServiceAccount Username="FarmParaphrase" Password="{PASSWORD}" Type="None" /> <!--Pseudo account used to store farm paraphrase-->
-	<ServiceAccount Username="{DOMAIN\sp_serviceapps" Password="{PASSWORD}" Type="WindowsDomain" Create="Yes" Usage="sp_serviceapps" /> <!--Account used to run SP App Pools-->
-    <ServiceAccount Username="{DOMAIN\sp_install}" Password="{PASSWORD}" Type="WindowsDomain" Create="Yes" Usage="sp_install" /> <!--Account used to run SP App Pools-->
-    <ServiceAccount Username="{DOMAIN\sp_webapps}" Password="{PASSWORD}" Type="WindowsDomain" Create="Yes" Usage="sp_webapps" /> <!--Account used to run SP App Pools-->
-    <ServiceAccount Username="{DOMAIN\sp_superuser}" Password="{PASSWORD}" Type="WindowsDomain" Create="Yes" Usage="sp_superuser" /> <!--Account used to run SP App Pools-->
-    <ServiceAccount Username="{DOMAIN\sp_superreader}" Password="{PASSWORD}" Type="WindowsDomain" Create="Yes" Usage="sp_superreader" /> <!--Account used to run SP App Pools-->
-    <ServiceAccount Username="{DOMAIN\sp_farm}" Password="{PASSWORD}" Type="WindowsDomain" Create="Yes" Usage="sp_farm" /> <!--Account used to run SP App Pools-->
-	<!--
-	sp_install
-	sp_farm
-	sp_webapps
-	sp_serviceapps
-	sp_content 
-	sp_superuser
-	sp_superreader
-	-->
+	
 	<!--
 	sp_install
 	sp_farm

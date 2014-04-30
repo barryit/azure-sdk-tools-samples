@@ -90,6 +90,7 @@ function CreateRemotePSEnabledVM
 	$createVMArgumentList += ("-Domain",$netBiosDomainName)
 	$createVMArgumentList += ("-DataDisks",'(,$dataDisks)')
 	
+	Write-Output "CreateRemotePSEnabledVM"
 	#Invoke the CreateRPSEnabledVM script with arguments
     Invoke-Expression ". '$RPSVmScriptPath' $createVMArgumentList"
 }
@@ -107,6 +108,7 @@ function FormatDisk
 	$formatDiskargumentList += ("-AdminUserName",$adminUserName)
 	$formatDiskargumentList += ("-Password",'$password')
 	
+	Write-Output "Format Disk"
 	#Invoke Format disk with arguments
 	Invoke-Expression ". '$FormatDiskScriptPath' $formatDiskargumentList"
 }
@@ -127,6 +129,7 @@ function ConfigureDC
 	$configureDCArgumentList += ("-NetBiosDomainName",'$netBiosDomainName')
 	$configureDCArgumentList += ("-Domain",'$dnsDomain')
 	
+	Write-Output "Configure DC"
 	#Invoke Configure DC with arguments
 	Invoke-Expression ". '$ConfigureDCScriptPath' $configureDCArgumentList"
 }
@@ -220,14 +223,18 @@ $domainCredential = New-Object System.Management.Automation.PSCredential("$netBi
 
 if(($createVNET -eq $true) -and ($dcInstallMode -eq "NewForest"))
 {
+	Write-Output "CreateVNet"
 	CreateVNet
 }
-
+Write-Output "CreateRemotePSEnabledVM"
 CreateRemotePSEnabledVM
 
+Write-Output "FormatDisk"
 FormatDisk
 
+Write-Output "ConfigureDC"
 ConfigureDC
+
 
 # Get the DC IP 
 $vm = Get-AzureVM -ServiceName $serviceName -Name $vmName
@@ -236,11 +243,12 @@ $domainControllerIP = $vm.IpAddress
 Write-Output "Configuring $vmName with a static internal IP, $domainControllerIP. This will allow stopping the VM later and still retain the IP."
 
 # Set the IP as a static internal IP for the DC, to avoid losing it later. 
-Set-AzureStaticVNETIP -IPAddress $domainControllerIP -VM $vm | Update-AzureVM
+Set-AzureStaticVNetIP -IPAddress $domainControllerIP -VM $vm | Update-AzureVM
 
 #Call UpdateVNetDNSEntry with the static internal IP.
 if(-not [String]::IsNullOrEmpty($domainControllerIP))
 {
+	Write-Host "CreateRemotePSEnabledVM"
 	UpdateVNetDNSEntry $vmName $domainControllerIP
 }
 

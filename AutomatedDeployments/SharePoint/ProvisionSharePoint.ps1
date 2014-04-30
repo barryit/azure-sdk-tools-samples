@@ -112,6 +112,8 @@ foreach($vmRole in $config.Azure.AzureVMGroups.VMRole)
 	}
 }
 
+if(false)
+{
 # Create Web Applications and top-level site
 $databases = @()
 if(-not [string]::IsNullOrEmpty($firstServerServiceName) -and -not [string]::IsNullOrEmpty($firstServerVmName))
@@ -209,4 +211,5 @@ foreach($vmRole in $config.Azure.AzureVMGroups.VMRole)
             }
         }
     }
+}
 }

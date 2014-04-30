@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Azure SubscriptionName="Windows Azure MSDN - Visual Studio Professional" ServiceName="sp-8ssmxn" StorageAccount="spstorage5eu6fy" VNetName="SPAutoVNet" AffinityGroup="SPAutoVNet-AG">
+  <ServiceAccounts>
+    <ServiceAccount UserName="spadmin" Password="Amyisgr8" Type="WindowsLocal" Create="No" />
+    <!--Account used to create VMs-->
+    <ServiceAccount UserName="corp\spadmin" Password="Amyisgr8" Type="WindowsDomain" Create="No" />
+    <!--Account used to connect to AD-->
+    <ServiceAccount UserName="spadmin" Password="Amyisgr8" Type="SQL" />
+  </ServiceAccounts>
+  <Connections>
+    <ActiveDirectory Domain="corp" DnsDomain="corp.contoso.com" DomainControllerVM="DC1" ServiceAccountName="corp\spadmin" ServiceName="sp-8ssmxn" />
+  </Connections>
+  <AzureVMGroups>
+    <VMRole Name="SQLServers" HighAvailabilityType="SQLAlwaysOn" VMSize="A6" StartingImageName="fb83b3509582419d99629ce476bcb5c8__SQL-Server-2012SP1-CU5-11.0.3373.0-Enterprise-ENU-Win2K8R2-CY13SU12" QuorumStartingImageName="a699494373c04fc0bc8f2bb1389d6106__Win2K8R2SP1-Datacenter-201404.01-en.us-127GB.vhd" QuorumVMSize="Small" DataDiskSizesInGB="Data:20;Log:10" DefaultSQLDataFolder="F:\Data" DefaultSQLLogFolder="G:\Logs" AvailabilitySet="SQLHA" SubnetNames="AppSubnet" ServiceAccountName="spadmin">
+      <AzureVM Name="SQLQ" Type="QUORUM" />
+      <AzureVM Name="SQL2" Type="SECONDARY" />
+      <AzureVM Name="SQL1" Type="PRIMARY" />
+      <!--Please ensure that the Type Primary is the last entry for the AzureVM-->
+    </VMRole>
+  </AzureVMGroups>
+  <SQLCluster Name="WSFCluster" SQLAvailabilityGroup="AG1" InstallerDomainUsername="corp\spadmin" InstallerDatabaseUserName="spadmin" PrimaryServiceAccountName="corp\spadmin" SecondaryServiceAccountName="corp\spadmin" FailoverTestDBName="TestDB" />
+</Azure>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Azure SubscriptionName="Windows Azure MSDN - Visual Studio Professional" ServiceName="sp-8ssmxn" StorageAccount="spstorageuqxwds" Location="East US" VNetName="SPAutoVNet" AffinityGroup="SPAutoVNet-AG">
+  <ServiceAccounts>
+    <ServiceAccount UserName="spadmin" Password="xgkm2ci95u0!" Type="WindowsLocal" />
+  </ServiceAccounts>
+  <AzureVNet CreateVNET="true" NetworkConfigFileName="NetworkConfig.xml" />
+  <AzureVMGroups>
+    <VMRole Name="DomainControllers" StartingImageName="a699494373c04fc0bc8f2bb1389d6106__Windows-Server-2012-Datacenter-201404.01-en.us-127GB.vhd" VMSize="Small" SubnetNames="DCSubnet" ServiceAccountName="spadmin" AvailabilitySet="DCSet" DataDiskSizesInGB="Data:20;Log:10">
+      <AzureVM Name="DC1" DCType="NewForest">
+      </AzureVM>
+    </VMRole>
+  </AzureVMGroups>
+  <ActiveDirectory Domain="corp" DnsDomain="corp.contoso.com">
+  </ActiveDirectory>
+</Azure>
